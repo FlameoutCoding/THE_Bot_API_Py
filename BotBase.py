@@ -6,10 +6,11 @@ class BotBase:
         self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.socket.connect((host,port))
         self.authToken = token
+        self.myGameSlot = -1
 
     def authenticate(self,goIntoReadLoop=True):
         self.socket.send("{\"identifier\":\""+self.authToken+"\"}\n")
-        if goIntoReadLoop:
+        if goIntoReadLoop:  #suboptimal solution, preferably wait for one message and only enter permanent loop after successful auth
             self.readLoop()
 
     def readLoop(self):
@@ -24,6 +25,11 @@ class BotBase:
 
     def processMessage(self,message):
         parsedMessage = json.loads(message)
+        
+        if parsedMessage["response"] == "ok":
+            self.authenticationSuccessful(parsedMessage["identified"])
+            return
+        
         if parsedMessage["response"] == "info":
             if parsedMessage["type"] == "OpenMyCards":
                 card1 = int(parsedMessage["my.card0"])
@@ -33,5 +39,9 @@ class BotBase:
         
         print "Warn: Unparsed Message: "+message
 
+    def authenticationSuccessful(self,slot):
+        print "Authentication successful, slot id: ",slot
+        self.myGameSlot = slot
+        
     def gotMyCards(self,card1,card2):
         print "Unhandled Action: gotMyCards (",card1,",",card2,")"

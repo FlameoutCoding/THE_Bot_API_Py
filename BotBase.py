@@ -26,9 +26,10 @@ class BotBase:
 		parsedMessage = json.loads(message)
 		if parsedMessage["response"] == "info":
 			if parsedMessage["type"] == "OpenMyCards":
-				card1 = int(parsedMessage["my.card0"]
-				card2 = int(parsedMessage["my.card1"]
+				card1 = int(parsedMessage["my.card0"])
+				card2 = int(parsedMessage["my.card1"])
 				self.gotMyCards(card1,card2)
+				return
 		
         print "Warn: Unparsed Message: "+message
 

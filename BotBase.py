@@ -33,5 +33,5 @@ class BotBase:
 		
 		print "Warn: Unparsed Message: "+message
 
-	def gotMyCards(self,card1,card):
+	def gotMyCards(self,card1,card2):
 		print "Unhandled Action: gotMyCards (",card1,",",card2,")"

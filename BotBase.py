@@ -23,15 +23,15 @@ class BotBase:
                 buffer = buffer[buffer.index("\n")+1:]
 
     def processMessage(self,message):
-		parsedMessage = json.loads(message)
-		if parsedMessage["response"] == "info":
-			if parsedMessage["type"] == "OpenMyCards":
-				card1 = int(parsedMessage["my.card0"])
-				card2 = int(parsedMessage["my.card1"])
-				self.gotMyCards(card1,card2)
-				return
-		
-		print "Warn: Unparsed Message: "+message
+        parsedMessage = json.loads(message)
+        if parsedMessage["response"] == "info":
+            if parsedMessage["type"] == "OpenMyCards":
+                card1 = int(parsedMessage["my.card0"])
+                card2 = int(parsedMessage["my.card1"])
+                self.gotMyCards(card1,card2)
+                return
+        
+        print "Warn: Unparsed Message: "+message
 
-	def gotMyCards(self,card1,card2):
-		print "Unhandled Action: gotMyCards (",card1,",",card2,")"
+    def gotMyCards(self,card1,card2):
+        print "Unhandled Action: gotMyCards (",card1,",",card2,")"

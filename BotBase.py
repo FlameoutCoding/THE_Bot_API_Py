@@ -39,6 +39,21 @@ class BotBase:
                 card2 = int(parsedMessage["my.card1"])
                 self.gotMyCards(card1,card2)
                 return
+                
+            if parsedMessage["type"] == "GameResult":
+                resultKeys = filter(lambda x : ("result" in x) and (".gameResult" in x),parsedMessage.keys())
+                resultMap = {}
+                for key in resultKeys:
+                    resultMap[key] = parsedMessage[x]
+                self.onSubgameFinished(resultMap)
+                return
+                
+            if parsedMessage["type"] == "PlayerAction":
+                amount = -1
+                if parsedMessage["action"] == "raise":
+                    amount = parsedMessage["amount"]
+                self.onEnemyAction(parsedMessage["action"],amount)
+                return
         
         if parsedMessage["response"] == "action":
             if int(parsedMessage["activePlayer"]) == self.myGameSlot:
@@ -61,6 +76,12 @@ class BotBase:
         
     def enemyNeedsToDoSomething(self,slot,currentAmount,currentHighestBet):
         print "Unhandled Action: enemyNeedsToDoSomething (",slot,",",currentAmount,",",currentHighestBet,")"
+
+    def onEnemyAction(self,action,amount):
+        print "Unhandled Action: onEnemyAction (",action,",",amount,")"
+
+    def onSubgameFinished(self,resultMap):
+        print "Unhandled Action: onSubgameFinished (",resultMap,")"
 
     def fold(self):
         message = "{\"command\":\"fold\"}\n"

@@ -55,6 +55,16 @@ class BotBase:
                 self.onEnemyAction(parsedMessage["action"],amount)
                 return
         
+            if parsedMessage["type"] == "GameStart":
+                self.newGameStarted()
+                return
+            
+            if parsedMessage["type"] == "Blind":
+                smallBlind = int(parsedMessage["smallBlindPlayer"])
+                bigBlind = int(parsedMessage["bigBlindPlayer"])
+                self.blindInfos(smallBlind,bigBlind)
+                return
+        
         if parsedMessage["response"] == "action":
             if int(parsedMessage["activePlayer"]) == self.myGameSlot:
                 self.iNeedToDoSomething(int(parsedMessage["currentBet"]),int(parsedMessage["highestBet"]))
@@ -82,6 +92,12 @@ class BotBase:
 
     def onSubgameFinished(self,resultMap):
         print "Unhandled Action: onSubgameFinished (",resultMap,")"
+
+    def newGameStarted(self):
+        print "Unhandled Action: newGameStarted"
+        
+    def blindInfos(self,smallBlindPlayers,bigBlindPlayers):
+        print "Unhandled Action: blindInfos (",smallBlindPlayers,",",bigBlindPlayers,")"
 
     def fold(self):
         message = "{\"command\":\"fold\"}\n"

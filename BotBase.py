@@ -41,11 +41,7 @@ class BotBase:
                 return
                 
             if parsedMessage["type"] == "GameResult":
-                resultKeys = filter(lambda x : ("result" in x) and (".gameResult" in x),parsedMessage.keys())
-                resultMap = {}
-                for key in resultKeys:
-                    resultMap[key] = parsedMessage[x]
-                self.onSubgameFinished(resultMap)
+                self.onSubgameFinished(parsedMessage)
                 return
                 
             if parsedMessage["type"] == "PlayerAction":
@@ -90,8 +86,8 @@ class BotBase:
     def onEnemyAction(self,action,amount):
         print "Unhandled Action: onEnemyAction (",action,",",amount,")"
 
-    def onSubgameFinished(self,resultMap):
-        print "Unhandled Action: onSubgameFinished (",resultMap,")"
+    def onSubgameFinished(self,message_maybefixme):
+        print "Unhandled Action: onSubgameFinished (",message_maybefixme,")"
 
     def newGameStarted(self):
         print "Unhandled Action: newGameStarted"

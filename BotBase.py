@@ -2,7 +2,7 @@ import json
 import socket
 
 class BotBase:
-    def __init__(self,host,port,token):
+    def __init__(self,host,port,token): #TODO Make slot blocking
         self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.socket.connect((host,port))
         self.authToken = token
@@ -37,6 +37,13 @@ class BotBase:
                 self.gotMyCards(card1,card2)
                 return
         
+        if parsedMessage["response"] == "action":
+            if int(parsedMessage["activePlayer"]) == self.myGameSlot:
+                self.iNeedToDoSomething(int(parsedMessage["currentBet"]),int(parsedMessage["highestBet"]))
+            else:
+                self.enemyNeedsToDoSomething(int(parsedMessage["activePlayer"]),int(parsedMessage["currentBet"]),int(parsedMessage["highestBet"]))
+            return
+        
         print "Warn: Unparsed Message: "+message
 
     def authenticationSuccessful(self,slot):
@@ -45,3 +52,9 @@ class BotBase:
         
     def gotMyCards(self,card1,card2):
         print "Unhandled Action: gotMyCards (",card1,",",card2,")"
+
+    def iNeedToDoSomething(self,currentAmount,currentHighestBet):
+        print "Unhandled Action: iNeedToDoSomething (",currentAmount,",",currentHighestBet,")"
+        
+    def enemyNeedsToDoSomething(self,slot,currentAmount,currentHighestBet):
+        print "Unhandled Action: enemyNeedsToDoSomething (",slot,",",currentAmount,",",currentHighestBet,")"

@@ -20,7 +20,7 @@ class BotBase:
             while "\n" in buffer:
                 message = buffer[:buffer.index("\n")]
                 self.processMessage(message)
-                message = message[buffer.index("\n")+1:]
+                buffer = buffer[buffer.index("\n")+1:]
 
     def processMessage(self,message):
 		parsedMessage = json.loads(message)

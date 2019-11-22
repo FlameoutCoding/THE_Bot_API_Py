@@ -1,3 +1,4 @@
+import json
 import socket
 
 class BotBase:
@@ -22,4 +23,14 @@ class BotBase:
                 message = message[buffer.index("\n")+1:]
 
     def processMessage(self,message):
-        print "I got a message: "+message
+		parsedMessage = json.loads(message)
+		if parsedMessage["response"] == "info":
+			if parsedMessage["type"] == "OpenMyCards":
+				card1 = int(parsedMessage["my.card0"]
+				card2 = int(parsedMessage["my.card1"]
+				self.gotMyCards(card1,card2)
+		
+        print "Warn: Unparsed Message: "+message
+
+	def gotMyCards(self,card1,card):
+		print "Unhandled Action: gotMyCards (",card1,",",card2,")"

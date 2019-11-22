@@ -9,9 +9,12 @@ class BotBase:
         self.myGameSlot = -1
 
     def authenticate(self,goIntoReadLoop=True):
-        self.socket.send("{\"identifier\":\""+self.authToken+"\"}\n")
+        self.sendMessage("{\"identifier\":\""+self.authToken+"\"}\n")
         if goIntoReadLoop:  #suboptimal solution, preferably wait for one message and only enter permanent loop after successful auth
             self.readLoop()
+
+    def sendMessage(self,message):
+        self.socket.send(message)
 
     def readLoop(self):
         buffer = ""
@@ -58,3 +61,15 @@ class BotBase:
         
     def enemyNeedsToDoSomething(self,slot,currentAmount,currentHighestBet):
         print "Unhandled Action: enemyNeedsToDoSomething (",slot,",",currentAmount,",",currentHighestBet,")"
+
+    def fold(self):
+        message = "{\"command\":\"fold\"}\n"
+        self.sendMessage(message)
+        
+    def call(self):
+        message = "{\"command\":\"call\"}\n"
+        self.sendMessage(message)
+        
+    def _raise(self,amount):
+        message = "{\"command\":\"call\",\"amount\":"+amount+"}\n"
+        self.sendMessage(message)

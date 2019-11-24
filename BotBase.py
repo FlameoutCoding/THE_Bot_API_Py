@@ -34,6 +34,18 @@ class BotBase:
             return
         
         if parsedMessage["response"] == "info":
+            if parsedMessage["type"] == "OpenFlop":
+                self.flopOpened([int(parsedMessage["flop0"]),int(parsedMessage["flop1"]),int(parsedMessage["flop2"])])
+                return
+                
+            if parsedMessage["type"] == "OpenTurn":
+                self.flopOpened(int(parsedMessage["turn"]))
+                return
+
+            if parsedMessage["type"] == "OpenRiver":
+                self.flopOpened(int(parsedMessage["river"]))
+                return
+                
             if parsedMessage["type"] == "OpenMyCards":
                 card1 = int(parsedMessage["my.card0"])
                 card2 = int(parsedMessage["my.card1"])
@@ -69,6 +81,15 @@ class BotBase:
             return
         
         print "Warn: Unparsed Message: "+message
+
+    def flopOpened(self,flop):
+        print "Unhandled Action: flopOpened (",flop,")"
+        
+    def turnOpened(self,turn):
+        print "Unhandled Action: turnOpened (",turn,")"
+
+    def riverOpened(self,river):
+        print "Unhandled Action: riverOpened (",river,")"
 
     def authenticationSuccessful(self,slot):
         print "Authentication successful, slot id: ",slot

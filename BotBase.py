@@ -39,11 +39,11 @@ class BotBase:
                 return
                 
             if parsedMessage["type"] == "OpenTurn":
-                self.flopOpened(int(parsedMessage["turn"]))
+                self.turnOpened(int(parsedMessage["turn"]))
                 return
 
             if parsedMessage["type"] == "OpenRiver":
-                self.flopOpened(int(parsedMessage["river"]))
+                self.riverOpened(int(parsedMessage["river"]))
                 return
                 
             if parsedMessage["type"] == "OpenMyCards":

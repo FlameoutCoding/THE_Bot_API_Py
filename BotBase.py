@@ -52,10 +52,20 @@ class BotBase:
                 self.gotMyCards(card1,card2)
                 return
                 
+            if parsedMessage["type"] == "OpenPlayer":
+				cards = []
+				player = -1
+				for key in parsedMessage:
+					if "player" in key:
+						cards.append(int(parsedMessage[key]))
+						player = int(key[6:7])
+				self.playerCardsOpened(player,cards)
+				return
+            
             if parsedMessage["type"] == "GameResult":
                 self.onSubgameFinished(parsedMessage)
                 return
-                
+
             if parsedMessage["type"] == "PlayerAction":
                 amount = -1
                 if parsedMessage["action"] == "raise":
@@ -90,6 +100,9 @@ class BotBase:
 
     def riverOpened(self,river):
         print "Unhandled Action: riverOpened (",river,")"
+
+	def playerCardsOpened(self,playerId,playerCards):
+		print "Unhandled Action: playerCardsOpened (",playerId,",",playerCards,")"
 
     def authenticationSuccessful(self,slot):
         print "Authentication successful, slot id: ",slot
